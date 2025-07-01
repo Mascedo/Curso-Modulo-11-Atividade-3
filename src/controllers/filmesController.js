@@ -4,7 +4,16 @@ const filmesService = require("../services/filmesService")
 exports.mostrarFilmes = async (req, res) => {
     try{
         const filmes = await filmesService.mostrar()
-        res.status(200).json(filmes)
+
+                const filmesFormatados = filmes.map(filmes  => {
+            return {
+                ...filmes.toObject(),
+                id: filmes._id,
+                _id: undefined
+            }
+        })
+
+        res.status(200).json(filmesFormatados)
     } catch (erro){
         res.status(500).json({erro: "Erro ao mostrar filmes", detalhes: erro.message})
     }
